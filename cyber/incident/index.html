@@ -25,6 +25,7 @@
       <button onclick="showStep('phishing')">Phishing email</button>
       <button onclick="showStep('malware')">Malware infection</button>
       <button onclick="showStep('breach')">Data breach</button>
+      <button onclick="showStep('gmail')">Clicked phishing link on Gmail</button>
     </div>
   </div>
 
@@ -73,6 +74,20 @@
               <li>Do not delete or alter any files — preserve evidence.</li>
               <li>Change affected passwords and enable MFA.</li>
               <li>Follow your organization's breach protocol.</li>
+            </ul>
+          </div>
+        `;
+      } else if (type === 'gmail') {
+        html = `
+          <div class="step">
+            <h2>Gmail Phishing Response</h2>
+            <ul>
+              <li>Change your Google password immediately.</li>
+              <li>Enable 2-Step Verification from your Google account settings.</li>
+              <li>Run a malware scan on your device using antivirus software.</li>
+              <li>Check Gmail account activity for suspicious logins or app access.</li>
+              <li>Report the email using Gmail’s “Report phishing” option.</li>
+              <li>Preserve screenshots if you entered any personal info.</li>
             </ul>
           </div>
         `;
