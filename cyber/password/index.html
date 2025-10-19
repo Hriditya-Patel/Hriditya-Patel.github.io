@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Password Strength Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; line-height: 1.6; }
+    h1 { color: #2c3e50; }
+    .card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; max-width: 720px; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input[type="password"] { width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; }
+    .meter { margin-top: 12px; height: 12px; background: #eee; border-radius: 6px; overflow: hidden; }
+    .meter .bar { height: 100%; width: 0%; transition: width .25s ease; }
+    .stats { margin-top: 10px; color: #34495e; }
+    .advice { margin-top: 10px; }
+    .advice li { margin-bottom: 6px; }
+    .nav { margin-top: 20px; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; background: #eee; margin-right: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Password strength lab</h1>
+  <p>Local check only. Nothing is uploaded or saved. Try building a strong passphrase using 3–4 random words.</p>
+  <div class="card">
+    <label for="pw">Test a password or passphrase:</label>
+    <input id="pw" type="password" autocomplete="off" />
+    <div class="meter"><div class="bar" id="bar"></div></div>
+    <div class="stats" id="stats"></div>
+    <ul class="advice" id="advice"></ul>
+    <div class="nav">
+      <span class="badge">Tip: length</span>
+      <span class="badge">Tip: variety</span>
+      <span class="badge">Tip: avoid patterns</span>
+    </div>
+  </div>
+
+  <p class="nav">
+    <a href="/cyber/phishing/index.html">Try the phishing simulator</a> •
+    <a href="/cyber/incident/index.html">Incident playbook</a> •
+    <a href="/">Back to portfolio</a>
+  </p>
+
+  <script>
+    const patterns = [
+      /password/i, /qwerty/i, /1234/, /letmein/i, /iloveyou/i,
+      /(.)\\1{2,}/, // repeated characters
+      /(123456|654321|abcdef|fedcba)/i
+    ];
+
+    function scorePassword(pw) {
+      let score = 0;
+      const advice = [];
+
+      // Length scoring
+      if (pw.length >= 20) { score += 40; }
+      else if (pw.length >= 16) { score += 30; }
+      else if (pw.length >= 12) { score += 20; }
+      else if (pw.length >= 8) { score += 10; }
+      else { advice.push("Use at least 12–16 characters."); }
+
+      // Character classes
+      const hasLower = /[a-z]/.test(pw);
+      const hasUpper = /[A-Z]/.test(pw);
+      const hasDigit = /\\d/.test(pw);
+      const hasSymbol = /[^A-Za-z0-9\\s]/.test(pw); // allow spaces for passphrases
+
+      const classes = [hasLower, hasUpper, hasDigit, hasSymbol].filter(Boolean).length;
+      score += classes * 10;
+      if (classes < 3) advice.push("Mix upper, lower, numbers, and symbols (or use word-based passphrases).");
+
+      // Common patterns penalty
+      if (patterns.some(rx => rx.test(pw))) {
+        score -= 30;
+        advice.push("Avoid common words, sequences, or repeated characters.");
+      }
+
+      // Entropy estimate
+      const pool = (hasLower?26:0) + (hasUpper?26:0) + (hasDigit?10:0) + (hasSymbol?32:0) + (/[\\s]/.test(pw)?1:0);
+      const entropy = Math.log2(Math.max(pool,1)) * pw.length;
+
+      // Passphrase encouragement
+      if (entropy < 50) advice.push("Try a longer passphrase of 3–4 random words (e.g., “river candlestick orbit maple”).");
+
+      return { score: Math.max(0, Math.min(score, 100)), advice, entropy: Math.round(entropy) };
+    }
+
+    function colorFor(score){
+      if (score < 30) return "#e74c3c";      // red
+      if (score < 60) return "#f1c40f";      // amber
+      if (score < 80) return "#2ecc71";      // green
+      return "#27ae60";                      // dark green
+    }
+
+    const pwInput = document.getElementById('pw');
+    const bar = document.getElementById('bar');
+    const stats = document.getElementById('stats');
+    const adviceList = document.getElementById('advice');
+
+    pwInput.addEventListener('input', e => {
+      const { score, advice, entropy } = scorePassword(e.target.value);
+      bar.style.width = score + "%";
+      bar.style.background = colorFor(score);
+
+      stats.textContent = `Strength: ${score}/100 • Entropy ~${entropy} bits`;
+      adviceList.innerHTML = "";
+      advice.forEach(a => {
+        const li = document.createElement('li'); li.textContent = a; adviceList.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
