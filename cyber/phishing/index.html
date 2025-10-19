@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phishing Detector Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; line-height: 1.6; }
+    h1 { color: #2c3e50; }
+    .layout { display: grid; grid-template-columns: 1fr 240px; gap: 20px; }
+    .email, .panel { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 16px; }
+    .from, .subject { margin: 6px 0; color: #34495e; }
+    .btn { display: block; width: 100%; margin: 6px 0; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; }
+    .btn:hover { background: #f0f0f0; }
+    .score { margin-top: 10px; font-weight: bold; }
+    .explain p { margin: 6px 0; }
+    .links a { margin-right: 10px; }
+    .safe { color: #2ecc71; }
+    .warn { color: #e67e22; }
+    .danger { color: #e74c3c; }
+  </style>
+</head>
+<body>
+  <h1>Phishing detector simulator</h1>
+  <p>Spot the red flags in a mock email. Click clues on the right; earn points and learn why they matter.</p>
+
+  <div class="layout">
+    <div class="email" id="email"></div>
+    <div class="panel">
+      <button class="btn" id="flag-domain">Suspicious domain</button>
+      <button class="btn" id="flag-urgency">Urgency tactic</button>
+      <button class="btn" id="flag-link">Mismatched / insecure link</button>
+      <button class="btn" id="flag-attachment">Unexpected attachment</button>
+      <div class="score" id="score">Score: 0/0</div>
+      <div class="explain" id="explain"></div>
+    </div>
+  </div>
+
+  <p class="links">
+    <a href="/cyber/password/index.html">Password lab</a> •
+    <a href="/cyber/incident/index.html">Incident playbook</a> •
+    <a href="/">Back to portfolio</a>
+  </p>
+
+  <script>
+    let current = null;
+    let score = 0;
+    const used = new Set();
+
+    async function loadScenario(){
+      const res = await fetch('./scenarios.json');
+      const scenarios = await res.json();
+      current = scenarios[Math.floor(Math.random()*scenarios.length)];
+      renderEmail(current);
+      updateScore();
+    }
+
+    function renderEmail(s){
+      const email = document.getElementById('email');
+      email.innerHTML = `
+        <p class="from"><strong>From:</strong> ${s.from}</p>
+        <p class="subject"><strong>Subject:</strong> ${s.subject}</p>
+        <p>${s.body}</p>
+        <p class="links">
+          ${s.links.map(l => `<a href="#" data-href="${l.href}" class="${l.safe?'safe':(l.warn?'warn':'danger')}">${l.text}</a>`).join(' ')}
+        </p>
+        ${s.attachment ? `<p><strong>Attachment:</strong> ${s.attachment}</p>` : ""}
+      `;
+    }
+
+    function updateScore(){
+      document.getElementById('score').textContent = `Score: ${score}/${current.flags.length}`;
+    }
+
+    function show(msg){
+      const ex = document.getElementById('explain');
+      const p = document.createElement('p');
+      p.textContent = msg;
+      ex.appendChild(p);
+    }
+
+    const map = {
+      'flag-domain': 'domain',
+      'flag-urgency': 'urgency',
+      'flag-link': 'link',
+      'flag-attachment': 'attachment'
+    };
+
+    Object.keys(map).forEach(btnId => {
+      document.getElementById(btnId).addEventListener('click', () => {
+        if (!current || used.has(btnId)) return;
+        used.add(btnId);
+        const type = map[btnId];
+        const flag = current.flags.find(f => f.type === type);
+        if (flag) { score += 1; show(flag.explanation); }
+        else { show("Not quite—review sender, subject, links, and attachments closely."); }
+        updateScore();
+      });
+    });
+
+    loadScenario();
+  </script>
+</body>
+</html>
