@@ -30,52 +30,50 @@
       { "type": "urgency", "explanation": "Deadline today creates pressure to act without verifying." },
       { "type": "link", "explanation": "Second link points to a look‑alike domain." }
     ]
+  },
+  {
+    "id": "social-media-dm",
+    "from": "Instagram Support <noreply@insta-help.com>",
+    "subject": "Your account will be disabled",
+    "body": "We detected a violation of our community guidelines. Click the link below to appeal within 24 hours or your account will be permanently disabled.",
+    "links": [
+      { "text": "Appeal now", "href": "http://insta-help.com/appeal" },
+      { "text": "Community guidelines", "href": "https://instagram.com/community", "safe": true }
+    ],
+    "flags": [
+      { "type": "domain", "explanation": "The sender domain is not the official Instagram domain." },
+      { "type": "urgency", "explanation": "Threatening permanent disablement pressures you to act quickly." },
+      { "type": "link", "explanation": "Appeal link points to a non‑Instagram domain." }
+    ]
+  },
+  {
+    "id": "giveaway-scam",
+    "from": "Apple Giveaway <promo@apple-free.com>",
+    "subject": "Congratulations! You won a free iPhone",
+    "body": "You have been selected to receive a brand new iPhone. Just pay a small shipping fee to claim your prize.",
+    "links": [
+      { "text": "Claim prize", "href": "http://apple-free.com/claim" }
+    ],
+    "flags": [
+      { "type": "domain", "explanation": "Domain mimics Apple but is not official." },
+      { "type": "urgency", "explanation": "Encourages immediate action to claim a prize." },
+      { "type": "link", "explanation": "Prize claim link is not on apple.com." },
+      { "type": "attachment", "explanation": "Scam giveaways often include forms or attachments to steal data." }
+    ]
+  },
+  {
+    "id": "tech-support",
+    "from": "Microsoft Support <help@ms-secure-alert.com>",
+    "subject": "Critical: Virus detected on your computer",
+    "body": "Your computer is infected. Call our toll‑free number immediately or click the link below to install the security update.",
+    "links": [
+      { "text": "Install update", "href": "http://ms-secure-alert.com/update" }
+    ],
+    "flags": [
+      { "type": "domain", "explanation": "Domain is not microsoft.com." },
+      { "type": "urgency", "explanation": "Scares you with a fake virus alert to push quick action." },
+      { "type": "link", "explanation": "Update link points to a suspicious domain." },
+      { "type": "attachment", "explanation": "Fake updates often install malware instead of fixing anything." }
+    ]
   }
-] ,
-
-{
-  "id": "social-media-dm",
-  "from": "Instagram Support <noreply@insta-help.com>",
-  "subject": "Your account will be disabled",
-  "body": "We detected a violation of our community guidelines. Click the link below to appeal within 24 hours or your account will be permanently disabled.",
-  "links": [
-    { "text": "Appeal now", "href": "http://insta-help.com/appeal" },
-    { "text": "Community guidelines", "href": "https://instagram.com/community", "safe": true }
-  ],
-  "flags": [
-    { "type": "domain", "explanation": "The sender domain is not the official Instagram domain." },
-    { "type": "urgency", "explanation": "Threatening permanent disablement pressures you to act quickly." },
-    { "type": "link", "explanation": "Appeal link points to a non‑Instagram domain." }
-  ]
-},
-{
-  "id": "giveaway-scam",
-  "from": "Apple Giveaway <promo@apple-free.com>",
-  "subject": "Congratulations! You won a free iPhone",
-  "body": "You have been selected to receive a brand new iPhone. Just pay a small shipping fee to claim your prize.",
-  "links": [
-    { "text": "Claim prize", "href": "http://apple-free.com/claim" }
-  ],
-  "flags": [
-    { "type": "domain", "explanation": "Domain mimics Apple but is not official." },
-    { "type": "urgency", "explanation": "Encourages immediate action to claim a prize." },
-    { "type": "link", "explanation": "Prize claim link is not on apple.com." },
-    { "type": "attachment", "explanation": "Scam giveaways often include forms or attachments to steal data." }
-  ]
-},
-{
-  "id": "tech-support",
-  "from": "Microsoft Support <help@ms-secure-alert.com>",
-  "subject": "Critical: Virus detected on your computer",
-  "body": "Your computer is infected. Call our toll‑free number immediately or click the link below to install the security update.",
-  "links": [
-    { "text": "Install update", "href": "http://ms-secure-alert.com/update" }
-  ],
-  "flags": [
-    { "type": "domain", "explanation": "Domain is not microsoft.com." },
-    { "type": "urgency", "explanation": "Scares you with a fake virus alert to push quick action." },
-    { "type": "link", "explanation": "Update link points to a suspicious domain." },
-    { "type": "attachment", "explanation": "Fake updates often install malware instead of fixing anything." }
-  ]
-}
-
+]
