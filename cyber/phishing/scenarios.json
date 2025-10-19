@@ -1,0 +1,34 @@
+[
+  {
+    "id": "bank-alert",
+    "from": "Security <security@bank-secure-support.com>",
+    "subject": "URGENT: Verify your account",
+    "body": "We noticed unusual activity. Click the link below to verify your account immediately or it may be locked.",
+    "links": [
+      { "text": "Verify now", "href": "http://bank-secure-support.com/login" },
+      { "text": "Account policy", "href": "https://bank.com/policy", "safe": true }
+    ],
+    "attachment": "Statement.zip",
+    "flags": [
+      { "type": "domain", "explanation": "The sender domain mimics the bank but is different. Always check the exact address." },
+      { "type": "urgency", "explanation": "Urgent tone pressures quick action to bypass caution." },
+      { "type": "link", "explanation": "Login link uses HTTP and a non-bank domain. Never enter credentials on unfamiliar sites." },
+      { "type": "attachment", "explanation": "Unexpected compressed attachment could contain malware." }
+    ]
+  },
+  {
+    "id": "school-it",
+    "from": "IT Desk <help@schooltech-support.org>",
+    "subject": "Password reset required by today",
+    "body": "We updated systems. Please reset your password using the official link below.",
+    "links": [
+      { "text": "Reset password", "href": "https://school.edu/reset", "safe": true },
+      { "text": "Alternate reset", "href": "https://schooltech-support.org/reset" }
+    ],
+    "flags": [
+      { "type": "domain", "explanation": "Support domain differs from the official school domain." },
+      { "type": "urgency", "explanation": "Deadline today creates pressure to act without verifying." },
+      { "type": "link", "explanation": "Second link points to a look‑alike domain." }
+    ]
+  }
+]
