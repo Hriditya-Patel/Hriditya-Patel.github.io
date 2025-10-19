@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cyber Incident Playbook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f4; line-height: 1.6; }
+    h1 { color: #2c3e50; }
+    .step { background: white; border: 1px solid #ccc; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+    .step h2 { margin-top: 0; }
+    .actions button { margin: 6px 0; padding: 8px 12px; font-size: 14px; border: none; border-radius: 4px; background: #3498db; color: white; cursor: pointer; }
+    .actions button:hover { background: #2980b9; }
+    .links a { margin-right: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Cyber Incident Playbook</h1>
+  <p>If you suspect a cyber incident, follow these steps to respond quickly and safely.</p>
+
+  <div class="step">
+    <h2>Step 1: Identify the incident</h2>
+    <p>What type of issue are you facing?</p>
+    <div class="actions">
+      <button onclick="showStep('phishing')">Phishing email</button>
+      <button onclick="showStep('malware')">Malware infection</button>
+      <button onclick="showStep('breach')">Data breach</button>
+    </div>
+  </div>
+
+  <div id="response"></div>
+
+  <p class="links">
+    <a href="/cyber/password/index.html">Password lab</a> •
+    <a href="/cyber/phishing/index.html">Phishing simulator</a> •
+    <a href="/">Back to portfolio</a>
+  </p>
+
+  <script>
+    function showStep(type){
+      const res = document.getElementById('response');
+      let html = '';
+      if (type === 'phishing') {
+        html = `
+          <div class="step">
+            <h2>Phishing Response</h2>
+            <ul>
+              <li>Do not click any links or download attachments.</li>
+              <li>Report the email to your IT/security team.</li>
+              <li>Delete the email after reporting.</li>
+              <li>Run a quick virus scan to be safe.</li>
+            </ul>
+          </div>
+        `;
+      } else if (type === 'malware') {
+        html = `
+          <div class="step">
+            <h2>Malware Response</h2>
+            <ul>
+              <li>Disconnect from the internet immediately.</li>
+              <li>Do not try to fix it yourself — report to IT.</li>
+              <li>Run antivirus software if instructed.</li>
+              <li>Document what happened and when.</li>
+            </ul>
+          </div>
+        `;
+      } else if (type === 'breach') {
+        html = `
+          <div class="step">
+            <h2>Data Breach Response</h2>
+            <ul>
+              <li>Notify your supervisor or IT team immediately.</li>
+              <li>Do not delete or alter any files — preserve evidence.</li>
+              <li>Change affected passwords and enable MFA.</li>
+              <li>Follow your organization's breach protocol.</li>
+            </ul>
+          </div>
+        `;
+      }
+      res.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
